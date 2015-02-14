@@ -3,7 +3,7 @@
   "title": "jQuery Simpletag",
   "description": "A very simple tag-box-plugin for jquery.",
   "version": "0.1.0",
-  "homepage": "https://github.com/andreas/jquery-simpletag",
+  "homepage": "https://github.com/derapU/jquery-simpletag",
   "author": {
     "name": "Andreas Berghaus",
     "email": "andreas@bergha.us",
@@ -11,13 +11,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/andreas/jquery-simpletag.git"
+    "url": "git://github.com/derapU/jquery-simpletag.git"
   },
-  "bugs": "https://github.com/andreas/jquery-simpletag/issues",
+  "bugs": "https://github.com/derapU/jquery-simpletag/issues",
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/andreas/jquery-simpletag/blob/master/LICENSE-MIT"
+      "url": "https://github.com/derapU/jquery-simpletag/blob/master/LICENSE-MIT"
     }
   ],
   "dependencies": {

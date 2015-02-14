@@ -1,11 +1,9 @@
-'use strict';
-
-module.exports = function(grunt) {
+module.exports = function( grunt ) {
 
   // Project configuration.
-  grunt.initConfig({
+  grunt.initConfig( {
     // Metadata.
-    pkg: grunt.file.readJSON('jquery-simpletag.jquery.json'),
+    pkg: grunt.file.readJSON( 'simpletag.jquery.json' ),
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
@@ -21,42 +19,75 @@ module.exports = function(grunt) {
         stripBanners: true
       },
       dist: {
-        src: ['src/jquery.<%= pkg.name %>.js'],
-        dest: 'dist/jquery.<%= pkg.name %>.js'
+        src: ['src/js/jquery.simpletag.js'],
+        dest: 'dist/jquery.simpletag.js'
       },
     },
     uglify: {
       options: {
-        banner: '<%= banner %>'
+        banner: '<%= banner %>',
+        sourceMap: true,
+        sourceMapIncludeSources: true
       },
       dist: {
-        src: '<%= concat.dist.dest %>',
-        dest: 'dist/jquery.<%= pkg.name %>.min.js'
+        src: 'src/js/**/*.js',
+        dest: 'dist/<%= pkg.name %>.min.js'
       },
+    },
+    less: {
+      main: {
+        options: {
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapURL: 'style.css.map'
+        },
+        files: {
+          'dist/style.css': 'src/less/main.less',
+          'dist/jquery-simpletag.css': 'src/less/jquery-simpletag.less'
+        }
+      }
+    },
+    autoprefixer: {
+      options: {
+        browsers: ['last 2 versions', 'ie 9'],
+        map: true
+      },
+      example: {
+        src: 'dist/style.css',
+        dest: 'dist/style.css'
+      },
+      simpletag: {
+        src: 'dist/jquery-simpletag.css',
+        dest: 'dist/jquery-simpletag.css'
+      }
     },
     watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
+      scripts: {
+        files: ['src/js/**/*.js'],
+        tasks: ['uglify'],
+        options: {
+          spawn: false,
+        },
       },
-      src: {
-        files: '<%= jshint.src.src %>',
-        tasks: ['jshint:src', 'qunit']
-      },
-      test: {
-        files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'qunit']
+      less: {
+        files: ['src/less/**/*.less'],
+        tasks: ['less','autoprefixer'],
+        options: {
+          spawn: false,
+        },
       },
     },
-  });
+  } );
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks( 'grunt-contrib-less' );
+  grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+  grunt.loadNpmTasks( 'grunt-autoprefixer' );
+  grunt.loadNpmTasks( 'grunt-contrib-clean' );
+  grunt.loadNpmTasks( 'grunt-contrib-concat' );
+  grunt.loadNpmTasks( 'grunt-contrib-watch' );
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'qunit', 'clean', 'concat', 'uglify']);
+  grunt.registerTask( 'default', ['clean', 'concat', 'uglify'] );
 
 };
