@@ -1,0 +1,195 @@
+@import (less) "../vendor/normalize.css/normalize.css";
+
+html, body {
+	background-color: #fff;
+	height: 100%;
+	width: 100%;
+}
+
+.lato {
+	font-family: 'Lato', sans-serif;
+	opacity: 0;
+	transition: opacity 500ms, font-size 1000ms;
+
+	&._done {
+		opacity: 1;
+	}
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+
+	&:hover {
+		background-color: #fff;
+		color: #000;
+		display: inline-block;
+		padding: 0 .15em;
+		margin: 0 -.15em;
+
+		transition: color 500ms, background-color 500ms;
+	}
+}
+
+.view {
+	box-sizing: border-box;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 5px 0 0;
+
+	overflow: auto;
+
+	&.full {
+		min-height: 100%;
+		width: 100%;
+		position: relative;
+
+		.mw960 {
+			max-width: 960px;
+			margin: auto;
+			width: 100%;
+		}
+		.ph2em {
+			box-sizing: border-box;
+			padding-left: 2em;
+			padding-right: 2em;
+		}
+	}
+
+	.table {
+		display: table;
+	}
+	.cell {
+		display: table-cell;
+		padding-right: 1em;
+
+		&:last-child {
+			padding-right: 0;
+		}
+	}
+}
+
+header {
+	background-color: #6b6b6b;
+	border-width: 0 !important;
+	padding: 2em;
+
+	text-align: center;
+
+	h1 {
+		color: #fff;
+		font-weight: 100;
+		font-size: 6em;
+		line-height: 0.75em;
+		vertical-align: middle;
+
+		margin: auto;
+		height: 1em;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		position: absolute;
+	}
+
+	transition: opacity 1.5s 1s, height 1s 1s, min-height 1s 1s, font-size 1s 0, border-width 1s;
+}
+
+body.fix {
+	.view {
+		padding-bottom: 4em;
+	}
+	header {
+		min-height: 0 !important;
+		height: 2em !important;
+		width: 100%;
+		border-color: #fff;
+		border-style: solid;
+		border-width: 2px 0 0;
+
+		position: fixed;
+		bottom: 0;
+		left: 0;
+
+		h1 {
+			font-size: 2em;
+		}
+
+		&.view {
+			padding-bottom: 2em;
+		}
+	}
+}
+
+section {
+	h2 {
+		.lato;
+		._done;
+		transition: none;
+
+		color: #fff;
+		font-size: 3.5em;
+		font-weight: 100;
+		margin: .5em auto;
+		text-align: center;
+	}
+}
+
+section.card {
+	@color: #45BA55;
+
+	background-color: @color;
+	color: #fff;
+	padding-top: 1.4375em;
+	padding-bottom: 2.875em;
+
+
+	address {
+		color: inherit;
+		font-style: normal;
+		font-family: 'Lato';
+
+		min-width: 300px;
+		max-width: 600px;
+		margin: auto;
+
+		.fn,
+		.email {
+			font-size: 1.5em;
+
+		}
+
+		a {
+			&:hover {
+				color: @color;
+			}
+		}
+
+		.adr {
+			display: none;
+		}
+
+		.table {
+			width: 100%;
+			table-layout: fixed;
+
+			.cell {
+				box-sizing: border-box;
+				width: 50%;
+
+				&:first-child {
+					text-align: right;
+				}
+				&:last-child {
+					padding-left: 1em;
+				}
+			}
+		}
+	}
+}
+
+section.portfolio {
+	background-color: #465075;
+}
+
+@import (less) "example.less";

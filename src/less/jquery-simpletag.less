@@ -1,0 +1,48 @@
+.simpletag-container {
+	padding: 0;
+
+	&,
+	> div.simpletag-list {
+		// http://nicolasgallagher.com/micro-clearfix-hack/
+		&:before,
+		&:after {
+			content: " "; /* 1 */
+			display: table; /* 2 */
+		}
+		&:after {
+			clear: both;
+		}
+	}
+
+	// the original input
+	> input {
+		display: none;
+	}
+	> div.simpletag-list {
+		margin: 0;
+		margin-bottom: -.35em;
+		list-style: none;
+
+		> span.simpletag-tag,
+		> input.simpletag-input {
+			display: inline-block;
+			margin-bottom: .35em;
+		}
+
+		> span.simpletag-tag {
+			background-color: #4a71ab;
+			color: #fff;
+			margin-right: .35em;
+			padding: 0 .175em;
+		}
+
+		> input.simpletag-input {
+			// always hide borders
+			border-style: none !important;
+			border-width: 0 !important;
+			padding: 0 !important;
+			outline: none !important;
+			max-width: 100% !important;
+		}
+	}
+}

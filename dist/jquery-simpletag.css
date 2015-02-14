@@ -1,0 +1,43 @@
+.simpletag-container {
+  padding: 0;
+}
+.simpletag-container:before,
+.simpletag-container > div.simpletag-list:before,
+.simpletag-container:after,
+.simpletag-container > div.simpletag-list:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.simpletag-container:after,
+.simpletag-container > div.simpletag-list:after {
+  clear: both;
+}
+.simpletag-container > input {
+  display: none;
+}
+.simpletag-container > div.simpletag-list {
+  margin: 0;
+  margin-bottom: -0.35em;
+  list-style: none;
+}
+.simpletag-container > div.simpletag-list > span.simpletag-tag,
+.simpletag-container > div.simpletag-list > input.simpletag-input {
+  display: inline-block;
+  margin-bottom: .35em;
+}
+.simpletag-container > div.simpletag-list > span.simpletag-tag {
+  background-color: #4a71ab;
+  color: #fff;
+  margin-right: .35em;
+  padding: 0 .175em;
+}
+.simpletag-container > div.simpletag-list > input.simpletag-input {
+  border-style: none !important;
+  border-width: 0 !important;
+  padding: 0 !important;
+  outline: none !important;
+  max-width: 100% !important;
+}
+/*# sourceMappingURL=jquery-simpletag.css.map */
