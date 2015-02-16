@@ -46,7 +46,7 @@
 
 			// clone original-input and append it to the list
 			this.create_input();
-console.log(2);
+
 			// insert container and put original input inside
 			// then append our taglist
 			this.$original_input.before( this.$container );
@@ -196,7 +196,7 @@ console.log(2);
 			}
 
 			// set current input-value, get the rendered width and apply
-			// it to the input including the configure min-width to save some
+			// it to the input including the configured min-width to save some
 			// place for the next character.
 			$mirror.html( self.$input.val() );
 			self.$input.width( parseInt( $mirror.innerWidth(), 10 )+self.opts.input_min_width + 'px' );
