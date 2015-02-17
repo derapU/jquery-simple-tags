@@ -137,6 +137,11 @@
 				return;
 			}
 
+			// drop double-tag
+			if ( true === this.tag_exists( tag ) ) {
+				return;
+			}
+
 			// add to original input
 			this.tags.push( tag );
 			this.write_tags();
@@ -155,6 +160,9 @@
 
 			// update view
 			this.update_view();
+		},
+		tag_exists: function ( tag ) {
+			return ! -1 < $.inArray( tag, this.tags );
 		},
 
 
