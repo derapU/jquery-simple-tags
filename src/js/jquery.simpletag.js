@@ -83,6 +83,10 @@
 				'font-size',
 				'font-style',
 				'font-weight',
+				'margin-bottom',
+				'margin-top',
+				'margin-left',
+				'margin-right',
 				'text-transform',
 				'text-decoration',
 				'width'
@@ -92,11 +96,16 @@
 			} );
 		},
 		create_input: function () {
-			this.$input = $( '<input type="text" class="simpletag-input">' )
+			this.$input = $( '<input type="text" class="simpletag-tag simpletag-input">' )
 				.css( {
 					width: this.opts.input_min_width,
+					maxHeight: this.$original_input.css( 'font-size' ),
 					marginTop: this.opts.border_spacing
 				} )
+				.clonecss( this.$original_input, [
+					'background-color',
+					'color'
+				] )
 				.val( '' );
 		},
 		create_list: function () {
@@ -120,7 +129,7 @@
 			} );
 
 			// remove tags
-			this.$list.find( '.simpletag-tag' ).remove();
+			this.$list.find( ':not(input).simpletag-tag' ).remove();
 
 			// insert tags in list
 			$.each( this.tags, function () {
