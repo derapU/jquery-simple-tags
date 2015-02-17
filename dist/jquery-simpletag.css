@@ -32,13 +32,12 @@
 }
 .simpletag-container .simpletag-list .simpletag-input {
   background-color: transparent !important;
-  color: #000;
   border-style: none !important;
   border-width: 0 !important;
   margin-right: 0 !important;
+  max-width: 100% !important;
+  outline: none !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
-  outline: none !important;
-  max-width: 100% !important;
 }
 /*# sourceMappingURL=jquery-simpletag.css.map */

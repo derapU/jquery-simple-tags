@@ -35,14 +35,23 @@ module.exports = function( grunt ) {
       },
     },
     less: {
-      main: {
+      example: {
         options: {
           sourceMap: true,
           outputSourceFiles: true,
-          sourceMapURL: 'style.css.map'
+          sourceMapFilename: 'style.css.map'
         },
         files: {
           'dist/style.css': 'src/less/main.less',
+        }
+      },
+      simpletag: {
+        options: {
+          sourceMap: true,
+          outputSourceFiles: true,
+          sourceMapFilename: 'jquery-simpletag.css.map'
+        },
+        files: {
           'dist/jquery-simpletag.css': 'src/less/jquery-simpletag.less'
         }
       }
@@ -50,7 +59,8 @@ module.exports = function( grunt ) {
     autoprefixer: {
       options: {
         browsers: ['last 2 versions', 'ie 9'],
-        map: true
+        map: true,
+        inline: false
       },
       example: {
         src: 'dist/style.css',
