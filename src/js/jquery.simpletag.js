@@ -23,6 +23,7 @@
 	};
 	SimpleTag.prototype = {
 		default_opts: {
+			border_spacing: null,
 			delimiter: ',',
 			input_min_width: 30 // in px
 		},
@@ -81,37 +82,41 @@
 				'font-size',
 				'font-style',
 				'font-weight',
-				'line-height',
-				'margin-top',
-				'margin-right',
-				'margin-bottom',
-				'margin-left',
 				'text-transform',
 				'text-decoration',
 				'width'
 			] ).css ( {
-				minHeight: this.$original_input.outerHeight(),
+				minHeight:  this.$original_input.outerHeight(),
+				lineHeight: '1em'
 			} );
 		},
 		create_input: function () {
 			this.$input = $( '<input type="text" class="simpletag-input">' )
 				.css( {
 					width: this.opts.input_min_width,
+					marginTop: this.opts.border_spacing
 				} )
 				.val( '' );
 		},
 		create_list: function () {
 			this.$list = $( '<div class="simpletag-list">' ).clonecss( this.$original_input, [
-				'padding-top',
 				'padding-right',
 				'padding-bottom',
 				'padding-left'
 			] );
+			if ( null === this.opts.border_spacing ) {
+				this.opts.border_spacing = parseInt( this.$original_input.css( 'padding-top' ), 10 );
+			}
 		},
 
 		update_view: function ( field_value ) {
 			var self = this,
-				$tag  = $( '<span class="simpletag-tag">' );
+				$tag = $( '<span class="simpletag-tag">' );
+
+			// add correct border-spacing
+			$tag.css( {
+				marginTop: this.opts.border_spacing + 'px',
+			} );
 
 			// remove tags
 			this.$list.find( '.simpletag-tag' ).remove();
@@ -125,6 +130,13 @@
 
 		// add or remove tag to / from tag-box
 		add_tag: function ( tag ) {
+			tag = this.trim( tag );
+
+			// drop empty tag
+			if ( '' === tag ) {
+				return;
+			}
+
 			// add to original input
 			this.tags.push( tag );
 			this.write_tags();

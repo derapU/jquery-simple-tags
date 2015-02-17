@@ -19,19 +19,19 @@
 }
 .simpletag-container > div.simpletag-list {
   margin: 0;
-  margin-bottom: -0.35em;
   list-style: none;
 }
 .simpletag-container > div.simpletag-list > span.simpletag-tag,
 .simpletag-container > div.simpletag-list > input.simpletag-input {
-  display: inline-block;
-  margin-bottom: .35em;
+  display: block;
+  float: left;
+  margin: 0;
 }
 .simpletag-container > div.simpletag-list > span.simpletag-tag {
   background-color: #4a71ab;
   color: #fff;
   margin-right: .35em;
-  padding: 0 .175em;
+  padding: .05em .175em;
 }
 .simpletag-container > div.simpletag-list > input.simpletag-input {
   border-style: none !important;
