@@ -23,9 +23,10 @@
 	};
 	SimpleTag.prototype = {
 		default_opts: {
-			border_spacing: null,
+			min_length: 3,
 			delimiter: ',',
-			input_min_width: 30 // in px
+			border_spacing:  null, // null | px
+			input_min_width: 30    // in px
 		},
 		opts: null,
 
@@ -99,14 +100,14 @@
 				.val( '' );
 		},
 		create_list: function () {
-			this.$list = $( '<div class="simpletag-list">' ).clonecss( this.$original_input, [
-				'padding-right',
-				'padding-bottom',
-				'padding-left'
-			] );
 			if ( null === this.opts.border_spacing ) {
 				this.opts.border_spacing = parseInt( this.$original_input.css( 'padding-top' ), 10 );
 			}
+			this.$list = $( '<div class="simpletag-list">' ).clonecss( this.$original_input, [
+				'padding-right',
+				'padding-left'
+			] );
+			this.$list.css( 'padding-bottom', this.opts.border_spacing + 'px' )
 		},
 
 		update_view: function ( field_value ) {
@@ -134,12 +135,17 @@
 
 			// drop empty tag
 			if ( '' === tag ) {
-				return;
+				return false;
 			}
 
-			// drop double-tag
+			// drop short tags
+			if ( this.opts.min_length > tag.length ) {
+				return false;
+			}
+
+			// remove duplicate-tag and append it to the end
 			if ( true === this.tag_exists( tag ) ) {
-				return;
+				this.remove_tag( tag );
 			}
 
 			// add to original input
@@ -162,7 +168,7 @@
 			this.update_view();
 		},
 		tag_exists: function ( tag ) {
-			return ! -1 < $.inArray( tag, this.tags );
+			return true === -1 < $.inArray( tag, this.tags );
 		},
 
 
@@ -241,8 +247,9 @@
 				// add tag
 				if ( 13 === e.keyCode || self.opts.delimiter === self.$input.val().substr( -1 ) ) {
 					e.preventDefault();
-					self.add_tag( self.$input.val().replace( /,$/i, '', self.$input.val() ) );
-					self.$input.val( '' );
+					if ( false !== self.add_tag( self.$input.val().replace( /,$/i, '', self.$input.val() ) ) ) {
+						self.$input.val( '' );
+					}
 				}
 
 				self.resize_input();
