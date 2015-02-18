@@ -7,14 +7,14 @@ My intention was to create a tag-box based on jQuery that tries to preserve the 
 And finally: I like to do things ...
 
 ## How to use
-Call `simpletag()` on the input-field containing the list of tags:
+Call `simple_tags()` on the input-field containing the list of tags:
 ```javascript
-$( 'input.tagbox' ).simpletag();
+$( 'input.tagbox' ).simple_tags();
 ```
 
 You can configure a custom delimiter too
 ```javascript
-$( 'input.tagbox' ).simpletag( {
+$( 'input.tagbox' ).simple_tags( {
   delimiter: ','
 } );
 ```
