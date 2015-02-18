@@ -3,7 +3,7 @@ module.exports = function( grunt ) {
   // Project configuration.
   grunt.initConfig( {
     // Metadata.
-    pkg: grunt.file.readJSON( 'simpletag.jquery.json' ),
+    pkg: grunt.file.readJSON( 'simple-tags.jquery.json' ),
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
@@ -19,8 +19,8 @@ module.exports = function( grunt ) {
         stripBanners: true
       },
       dist: {
-        src: ['src/js/jquery.simpletag.js'],
-        dest: 'dist/jquery.simpletag.js'
+        src: ['src/js/jquery.simple-tags.js'],
+        dest: 'dist/jquery.simple-tags.js'
       },
     },
     uglify: {
@@ -49,10 +49,10 @@ module.exports = function( grunt ) {
         options: {
           sourceMap: true,
           outputSourceFiles: true,
-          sourceMapFilename: 'jquery-simpletag.css.map'
+          sourceMapFilename: 'jquery-simple-tags.css.map'
         },
         files: {
-          'dist/jquery-simpletag.css': 'src/less/jquery-simpletag.less'
+          'dist/jquery-simpletag.css': 'src/less/jquery-simple-tags.less'
         }
       }
     },

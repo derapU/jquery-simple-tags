@@ -1,6 +1,6 @@
 /*
- * jquery-simpletag
- * https://github.com/derapU/jquery-simpletag
+ * jquery-simple-tags
+ * https://github.com/derapU/jquery-simple-tags
  *
  * Copyright (c) 2015 Andreas Berghaus
  * Licensed under the MIT license.
@@ -9,19 +9,19 @@
 ( function( $ ) {
 	"use strict";
 
-	var SimpleTag,
+	var SimpleTags,
 		default_opts;
 
-	$.fn.simpletag = function ( opts ) {
+	$.fn.simple_tags = function ( opts ) {
 		return this.each( function () {
-			this.simpletag = new SimpleTag( $( this ), opts );
+			this.simple_tags = new SimpleTags( $( this ), opts );
 		} );
 	};
 
-	SimpleTag = function ( $input, opts ) {
+	SimpleTags = function ( $input, opts ) {
 		this.init( $input, opts );
 	};
-	SimpleTag.prototype = {
+	SimpleTags.prototype = {
 		default_opts: {
 			min_length: 3,
 			delimiter: ',',
@@ -69,7 +69,7 @@
 		},
 
 		create_container: function () {
-			this.$container = $( '<div class="simpletag-container">' );
+			this.$container = $( '<div class="simple-tags-container">' );
 
 			// clone some css-properties
 			this.$container.clonecss( this.$original_input, [
@@ -96,7 +96,7 @@
 			} );
 		},
 		create_input: function () {
-			this.$input = $( '<input type="text" class="simpletag-tag simpletag-input">' )
+			this.$input = $( '<input type="text" class="simple-tags-tag simple-tags-input">' )
 				.css( {
 					width: this.opts.input_min_width,
 					maxHeight: this.$original_input.css( 'font-size' ),
@@ -112,7 +112,7 @@
 			if ( null === this.opts.border_spacing ) {
 				this.opts.border_spacing = parseInt( this.$original_input.css( 'padding-top' ), 10 );
 			}
-			this.$list = $( '<div class="simpletag-list">' ).clonecss( this.$original_input, [
+			this.$list = $( '<div class="simple-tags-list">' ).clonecss( this.$original_input, [
 				'padding-right',
 				'padding-left'
 			] );
@@ -121,7 +121,7 @@
 
 		update_view: function ( field_value ) {
 			var self = this,
-				$tag = $( '<span class="simpletag-tag">' );
+				$tag = $( '<span class="simple-tags-tag">' );
 
 			// add correct border-spacing
 			$tag.css( {
@@ -129,7 +129,7 @@
 			} );
 
 			// remove tags
-			this.$list.find( ':not(input).simpletag-tag' ).remove();
+			this.$list.find( ':not(input).simple-tags-tag' ).remove();
 
 			// insert tags in list
 			$.each( this.tags, function () {
@@ -246,7 +246,7 @@
 			var self = this;
 
 			// remove tag on click
-			this.$list.on( 'click', '> .simpletag-tag', function ( e ) {
+			this.$list.on( 'click', '> .simple-tags-tag', function ( e ) {
 				e.preventDefault();
 				self.remove_tag( $( this ).html() );
 			} );

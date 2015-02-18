@@ -1,11 +1,11 @@
 {
-  "name": "jquery-simpletag",
+  "name": "jquery-simple-tags",
   "version": "0.0.1",
-  "description": "a simple jquery tagbox",
+  "description": "A very simple tag-box-plugin for jquery.",
   "author": "Andreas Berghaus <info@bergha.us>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/derapU/jquery-simpletag"
+    "url": "https://github.com/derapU/jquery-simple-tags"
   },
   "homepage": "http://bergha.us/",
   "devDependencies": {
