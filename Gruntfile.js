@@ -39,7 +39,8 @@ module.exports = function( grunt ) {
         options: {
           sourceMap: true,
           outputSourceFiles: true,
-          sourceMapFilename: 'style.css.map'
+          sourceMapUrl: 'style.css.map',
+          sourceMapFilename: 'dist/style.css.map'
         },
         files: {
           'dist/style.css': 'src/less/main.less',
@@ -49,26 +50,29 @@ module.exports = function( grunt ) {
         options: {
           sourceMap: true,
           outputSourceFiles: true,
-          sourceMapFilename: 'jquery-simple-tags.css.map'
+          sourceMapUrl: 'jquery-simple-tags.css.map',
+          sourceMapFilename: 'dist/jquery-simple-tags.css.map'
         },
         files: {
-          'dist/jquery-simpletag.css': 'src/less/jquery-simple-tags.less'
+          'dist/jquery-simple-tags.css': 'src/less/jquery-simple-tags.less'
         }
       }
     },
     autoprefixer: {
       options: {
         browsers: ['last 2 versions', 'ie 9'],
-        map: true,
-        inline: false
+        map: {
+          prev: 'dist/',
+          inline: false
+        }
       },
       example: {
         src: 'dist/style.css',
         dest: 'dist/style.css'
       },
       simpletag: {
-        src: 'dist/jquery-simpletag.css',
-        dest: 'dist/jquery-simpletag.css'
+        src: 'dist/jquery-simple-tags.css',
+        dest: 'dist/jquery-simple-tags.css'
       }
     },
     watch: {
