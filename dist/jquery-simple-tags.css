@@ -1,0 +1,43 @@
+.simple-tags-container {
+  padding: 0;
+}
+.simple-tags-container:before,
+.simple-tags-container div.simple-tags-list:before,
+.simple-tags-container:after,
+.simple-tags-container div.simple-tags-list:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.simple-tags-container:after,
+.simple-tags-container div.simple-tags-list:after {
+  clear: both;
+}
+.simple-tags-container > input {
+  display: none;
+}
+.simple-tags-container .simple-tags-list {
+  margin: 0;
+  list-style: none;
+}
+.simple-tags-container .simple-tags-list .simple-tags-tag {
+  background-color: #4a71ab;
+  color: #fff;
+  display: block;
+  float: left;
+  margin: 0;
+  margin-right: .35em;
+  padding: .05em .175em;
+}
+.simple-tags-container .simple-tags-list .simple-tags-input {
+  background-color: transparent !important;
+  border-style: none !important;
+  border-width: 0 !important;
+  margin-right: 0 !important;
+  max-width: 100% !important;
+  outline: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+/*# sourceMappingURL=jquery-simple-tags.css.map */
