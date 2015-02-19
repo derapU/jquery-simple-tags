@@ -6,11 +6,10 @@
  * Licensed under the MIT license.
  */
 
-( function( $ ) {
+( function ( $ ) {
 	"use strict";
 
-	var SimpleTags,
-		default_opts;
+	var SimpleTags;
 
 	$.fn.simple_tags = function ( opts ) {
 		return this.each( function () {
@@ -116,10 +115,10 @@
 				'padding-right',
 				'padding-left'
 			] );
-			this.$list.css( 'padding-bottom', this.opts.border_spacing + 'px' )
+			this.$list.css( 'padding-bottom', this.opts.border_spacing + 'px' );
 		},
 
-		update_view: function ( field_value ) {
+		update_view: function () {
 			var self = this,
 				$tag = $( '<span class="simple-tags-tag">' );
 

@@ -1,11 +1,7 @@
-/*! jQuery Simple Tags - v0.1.0 - 2015-02-18
-* https://github.com/derapU/jquery-simple-tags
-* Copyright (c) 2015 Andreas Berghaus; Licensed MIT */
 ( function( $ ) {
 	"use strict";
 
-	var SimpleTags,
-		default_opts;
+	var SimpleTags;
 
 	$.fn.simple_tags = function ( opts ) {
 		return this.each( function () {
