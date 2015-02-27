@@ -38,7 +38,7 @@
 
 		init: function ( $input, opts ) {
 			// configure and save the original field
-			this.opts            = $.extend( {}, this.default_opts, opts );
+			this.opts            = $.extend( true, {}, this.default_opts, opts );
 			this.$original_input = $input;
 
 			// create elements
