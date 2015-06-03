@@ -13,19 +13,29 @@
 
 	$.fn.simple_tags = function ( opts ) {
 		return this.each( function () {
-			this.simple_tags = new SimpleTags( $( this ), opts );
+			if ( undefined !== this.simple_tags ) {
+				this.simple_tags.revert();
+			}
+			if ( undefined === this.simple_tags ) {
+				return this.simple_tags = new SimpleTags( $( this ), opts );
+			}
+			this.simple_tags.bind_events();
 		} );
 	};
 
 	SimpleTags = function ( $input, opts ) {
 		this.init( $input, opts );
+		return this;
 	};
 	SimpleTags.prototype = {
 		default_opts: {
 			min_length: 3,
 			delimiter: ',',
 			border_spacing:  null, // null | px
-			input_min_width: 30    // in px
+			input_min_width: 30,   // in px
+			events: {
+				change: function ( tags ) { return tags; }
+			}
 		},
 		opts: null,
 
@@ -122,6 +132,8 @@
 			var self = this,
 				$tag = $( '<span class="simple-tags-tag">' );
 
+			this.tags = this.read_tags();
+
 			// add correct border-spacing
 			$tag.css( {
 				marginTop: this.opts.border_spacing + 'px',
@@ -184,11 +196,12 @@
 		read_tags: function () {
 			var self = this;
 			return $.map( this.$original_input.val().split( this.opts.delimiter ), function ( tag ) {
-				return self.trim( tag );
+				return self.trim( tag ) || null;
 			} );
 		},
 		write_tags: function () {
 			this.$original_input.val( this.tags.join( this.opts.delimiter ) );
+			this.opts.events.change.apply( this, [this.tags] );
 		},
 
 
@@ -239,6 +252,10 @@
 
 		trim: function ( val ) {
 			return val.replace( /^\s*|\s*$/g, '' );
+		},
+		revert: function () {
+			this.$container.replaceWith( this.$original_input );
+			this.$original_input.get( 0 ).simple_tags = undefined;
 		},
 
 		bind_events: function () {
