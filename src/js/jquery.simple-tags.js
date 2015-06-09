@@ -19,7 +19,6 @@
 			if ( undefined === this.simple_tags ) {
 				return this.simple_tags = new SimpleTags( $( this ), opts );
 			}
-			this.simple_tags.bind_events();
 		} );
 	};
 
