@@ -14,7 +14,7 @@
 	$.fn.simple_tags = function ( opts ) {
 		return this.each( function () {
 			if ( undefined !== this.simple_tags ) {
-				this.simple_tags.revert();
+				this.simple_tags._revert();
 			}
 			if ( undefined === this.simple_tags ) {
 				return this.simple_tags = new SimpleTags( $( this ), opts );
@@ -23,11 +23,11 @@
 	};
 
 	SimpleTags = function ( $input, opts ) {
-		this.init( $input, opts );
+		this._init( $input, opts );
 		return this;
 	};
 	SimpleTags.prototype = {
-		default_opts: {
+		_default_opts: {
 			min_length: 3,
 			delimiter: ',',
 			border_spacing:  null, // null | px
@@ -36,62 +36,61 @@
 				change: function ( tags ) { return tags; }
 			}
 		},
-		opts: null,
+		_opts: null,
 
-		tags: [],
+		_tags: [],
 
-		$original_input: null,
-		$input:          null,
-		$container:      null,
-		$list:           null,
+		_$original_input: null,
+		_$input:          null,
+		_$container:      null,
+		_$list:           null,
 
-		init: function ( $input, opts ) {
+		_init: function ( $input, opts ) {
 			// configure and save the original field
-			this.opts            = $.extend( true, {}, this.default_opts, opts );
-			this.$original_input = $input;
+			this._opts            = $.extend( true, {}, this._default_opts, opts );
+			this._$original_input = $input;
 
 			// create elements
-			this.create_container();
-			this.create_list();
+			this._createContainer();
+			this._createList();
+			this._createInput();
 
-			// clone original-input and append it to the list
-			this.create_input();
-
-			// insert container and put original input inside
-			// then append our taglist
-			this.$original_input.before( this.$container );
-			this.$container
-				.append( this.$original_input )
-				.append( this.$list );
-
-
-			// append the input field
-			this.$list.append( this.$input );
+			// insert container
+			this._$input.before( this._$container );
+			this._$container.append( this._$list );
 
 			// bind events
-			this.bind_events();
+			this._bindEvents();
 
 			// update taglist with values from original input
-			this.tags = this.read_tags();
-			this.update_view();
+			this._tags = this._readTags();
+			this.updateView();
 		},
 
-		create_container: function () {
-			this.$container = $( '<div class="simple-tags-container">' );
+		_createInput: function () {
+			// create new input-field
+			this._$input = this._$original_input.clone().attr( 'id', '' ).attr( 'name', '' );
+
+			// append new input-field
+			this._$original_input.after( this._$input.attr( 'placeholder', 'Tags hinzufügen' ).val( '' ) );
+
+			// hide original-input
+			this._$original_input.css( {
+				position: 'absolute',
+				zIndex: -1,
+				width: 0
+			} );
+		},
+
+		_createContainer: function () {
+			this._$container = $( '<div class="simple-tags-container">' );
 
 			// clone some css-properties
-			this.$container.clonecss( this.$original_input, [
-				'background-color',
-				'color',
-				'border-style',
-				'border-color',
-				'border-width',
-				'float',
+			this._$container.clonecss( this._$original_input, [
 				'font-family',
 				'font-size',
 				'font-style',
 				'font-weight',
-				'margin-bottom',
 				'margin-top',
 				'margin-left',
 				'margin-right',
@@ -99,58 +98,43 @@
 				'text-decoration',
 				'width'
 			] ).css ( {
-				minHeight:  this.$original_input.outerHeight(),
+				marginBottom: this._opts.border_spacing,
+				minHeight:  this._$original_input.outerHeight(),
 				lineHeight: '1em'
 			} );
 		},
-		create_input: function () {
-			this.$input = $( '<input type="text" class="simple-tags-tag simple-tags-input">' )
-				.css( {
-					width: this.opts.input_min_width,
-					maxHeight: this.$original_input.css( 'font-size' ),
-					marginTop: this.opts.border_spacing
-				} )
-				.clonecss( this.$original_input, [
-					'background-color',
-					'color'
-				] )
-				.val( '' );
-		},
-		create_list: function () {
-			if ( null === this.opts.border_spacing ) {
-				this.opts.border_spacing = parseInt( this.$original_input.css( 'padding-top' ), 10 );
+		_createList: function () {
+			if ( null === this._opts.border_spacing ) {
+				this._opts.border_spacing = parseInt( this._$original_input.css( 'padding-top' ), 10 );
 			}
-			this.$list = $( '<div class="simple-tags-list">' ).clonecss( this.$original_input, [
-				'padding-right',
-				'padding-left'
-			] );
-			this.$list.css( 'padding-bottom', this.opts.border_spacing + 'px' );
+			this._$list = $( '<div class="simple-tags-list">' );
+			this._$list.css( 'padding-bottom', 0.5*this._opts.border_spacing + 'px' );
 		},
 
-		update_view: function () {
+		updateView: function () {
 			var self = this,
 				$tag = $( '<span class="simple-tags-tag">' );
 
-			this.tags = this.read_tags();
+			this._tags = this._readTags();
 
 			// add correct border-spacing
 			$tag.css( {
-				marginTop: this.opts.border_spacing + 'px',
+				marginTop: this._opts.border_spacing + 'px',
 			} );
 
 			// remove tags
-			this.$list.find( ':not(input).simple-tags-tag' ).remove();
+			this._$list.find( ':not(input).simple-tags-tag' ).remove();
 
 			// insert tags in list
-			$.each( this.tags, function () {
-				self.$input.before( $tag.clone().html( this ) );
+			$.each( this._tags, function () {
+				self._$list.append( $tag.clone().html( this ) );
 			} );
 		},
 
 
 		// add or remove tag to / from tag-box
-		add_tag: function ( tag ) {
-			tag = this.trim( tag );
+		_addTag: function ( tag ) {
+			tag = this._trim( tag );
 
 			// drop empty tag
 			if ( '' === tag ) {
@@ -158,137 +142,92 @@
 			}
 
 			// drop short tags
-			if ( this.opts.min_length > tag.length ) {
+			if ( this._opts.min_length > tag.length ) {
 				return false;
 			}
 
 			// remove duplicate-tag and append it to the end
-			if ( true === this.tag_exists( tag ) ) {
-				this.remove_tag( tag );
+			if ( true === this._tag_exists( tag ) ) {
+				this._remove_tag( tag );
 			}
 
 			// add to original input
-			this.tags.push( tag );
-			this.write_tags();
+			this._tags.push( tag );
+			this._writeTags();
 
 			// add to view
-			this.update_view();
+			this.updateView();
 		},
-		remove_tag: function ( tag ) {
-			var index = $.inArray( tag, this.tags );
+		_remove_tag: function ( tag ) {
+			var index = $.inArray( tag, this._tags );
 
 			// remove original input
 			if ( -1 < index ) {
-				this.tags.splice( index, 1 );
-				this.write_tags();
+				this._tags.splice( index, 1 );
+				this._writeTags();
 			}
 
 			// update view
-			this.update_view();
+			this.updateView();
 		},
-		tag_exists: function ( tag ) {
-			return true === -1 < $.inArray( tag, this.tags );
+		_tag_exists: function ( tag ) {
+			return true === -1 < $.inArray( tag, this._tags );
 		},
 
 
 		// read and write tags from / to original input-field
-		read_tags: function () {
+		_readTags: function () {
 			var self = this;
-			return $.map( this.$original_input.val().split( this.opts.delimiter ), function ( tag ) {
-				return self.trim( tag ) || null;
+			return $.map( this._$original_input.val().split( this._opts.delimiter ), function ( tag ) {
+				return self._trim( tag ) || null;
 			} );
 		},
-		write_tags: function () {
-			this.$original_input.val( this.tags.join( this.opts.delimiter ) );
-			this.opts.events.change.apply( this, [this.tags] );
+		_writeTags: function () {
+			this._$original_input.val( this._tags.join( this._opts.delimiter ) );
+			this._opts.events.change.apply( this, [this._tags] );
 		},
 
-
-		// resize the input-field to match the contents length
-		$mirror: null,
-		resize_input: function () {
-			var self    = this,
-				$mirror = this.$mirror;
-
-			if ( null === $mirror ) {
-				$mirror = $( '<span>' );
-				$mirror.css( {
-					display:  'block',
-					position: 'absolute',
-					top:      '-100000px',
-					left:     '-100000px',
-					padding:  0,
-					margin:   0,
-					width:    'auto'
-				} );
-
-				// clone font-properties from inputfield
-				$mirror.clonecss( self.$input, [
-					'font-family',
-					'font-size',
-					'font-style',
-					'font-weight',
-					'letter-spacing',
-					'line-height',
-					'text-transform',
-					'text-indent',
-					'whitespace',
-					'word-spacing'
-				] );
-
-				// save the mirror
-				$( 'body' ).prepend( $mirror );
-				this.$mirror = $mirror;
-			}
-
-			// set current input-value, get the rendered width and apply
-			// it to the input including the configured min-width to save some
-			// place for the next character.
-			$mirror.html( self.$input.val() );
-			self.$input.width( parseInt( $mirror.innerWidth(), 10 )+self.opts.input_min_width + 'px' );
-		},
-
-
-		trim: function ( val ) {
+		_trim: function ( val ) {
 			return val.replace( /^\s*|\s*$/g, '' );
 		},
-		revert: function () {
-			this.$container.replaceWith( this.$original_input );
-			this.$original_input.get( 0 ).simple_tags = undefined;
+		_revert: function () {
+			this._$container.replaceWith( this._$original_input );
+			this._$original_input.get( 0 ).simple_tags = undefined;
+
+			this._$input.remove();
+
+			// remove styles from original-input
+			this._$original_input.css( {
+				position: '',
+				zIndex: '',
+				width: ''
+			} );
 		},
 
-		bind_events: function () {
+		_bindEvents: function () {
 			var self = this;
 
 			// remove tag on click
-			this.$list.on( 'click', '> .simple-tags-tag', function ( e ) {
+			this._$list.on( 'click', '> .simple-tags-tag', function ( e ) {
 				e.preventDefault();
-				self.remove_tag( $( this ).html() );
+				self._remove_tag( $( this ).html() );
 			} );
 
 			// autoresize inputfield and check if we have to add a tag
-			this.$input.on( 'keyup', function ( e ) {
+			this._$input.on( 'keyup', function ( e ) {
 				// add tag
-				if ( 13 === e.keyCode || self.opts.delimiter === self.$input.val().substr( -1 ) ) {
+				if ( 13 === e.keyCode || self._opts.delimiter === self._$input.val().substr( -1 ) ) {
 					e.preventDefault();
-					if ( false !== self.add_tag( self.$input.val().replace( /,$/i, '', self.$input.val() ) ) ) {
-						self.$input.val( '' );
+					if ( false !== self._addTag( self._$input.val().replace( /,$/i, '', self._$input.val() ) ) ) {
+						self._$input.val( '' );
 					}
-				}
-
-				self.resize_input();
-			} ).on( 'keydown', function ( e ) {
-				// remove tag
-				if ( 8 === e.keyCode && 0 === self.$input.val().length ) {
-					e.preventDefault();
-					self.remove_tag( self.tags[self.tags.length-1] );
 				}
 			} );
 
 			// focus input on container-click
-			this.$container.on( 'click', function ( e ) {
+			this._$container.on( 'click', function ( e ) {
 				e.preventDefault();
-				self.$input.trigger( 'focus' );
+				self._$input.trigger( 'focus' );
 			} );
 		}
 	};
