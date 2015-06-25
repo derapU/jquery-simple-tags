@@ -34,7 +34,8 @@
 			input_min_width: 30,   // in px
 			events: {
 				change: function ( tags ) { return tags; }
-			}
+			},
+			typeahead: null        // example: function ( value ) { return ''; }
 		},
 		_opts: null,
 
@@ -46,6 +47,8 @@
 		_$list:           null,
 
 		_init: function ( $input, opts ) {
+			var self = this;
+
 			// configure and save the original field
 			this._opts            = $.extend( true, {}, this._default_opts, opts );
 			this._$original_input = $input;
@@ -58,6 +61,19 @@
 			// insert container
 			this._$input.before( this._$container );
 			this._$container.append( this._$list );
+
+			// check typeahead
+			if ( null !== this._opts.typeahead ) {
+				this._$input.typeahead( {
+					complete: this._opts.typeahead,
+					events: {
+						select: function ( value ) {
+							self._addTag( value );
+							self._$input.val( '' );
+						}
+					}
+				} );
+			}
 
 			// bind events
 			this._bindEvents();
@@ -72,7 +88,7 @@
 			this._$input = this._$original_input.clone().attr( 'id', '' ).attr( 'name', '' );
 
 			// append new input-field
-			this._$original_input.after( this._$input.attr( 'placeholder', 'Tags hinzufügen' ).val( '' ) );
+			this._$original_input.after( this._$input.val( '' ) );
 
 			// hide original-input
 			this._$original_input.css( {
