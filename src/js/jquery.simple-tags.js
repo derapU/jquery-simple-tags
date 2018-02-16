@@ -226,7 +226,7 @@
 			// remove tag on click
 			this._$list.on( 'click', '> .simple-tags-tag', function ( e ) {
 				e.preventDefault();
-				self._remove_tag( $( this ).html() );
+				self._remove_tag( $( this ).text() );
 			} );
 
 			// autoresize inputfield and check if we have to add a tag
